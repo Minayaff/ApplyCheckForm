@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ApplyESosial</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/style.css">
+    @RenderSection("Styles", required: false)
+    <style>
+        .loading-gif {
+            z-index: 99999;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            /* transform: translate(-50%,-50%); */
+            background-color: #222121ba;
+            background-image: url(/img/loading.gif);
+            background-position: center;
+            height: 100%;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-position: center;
+            visibility: hidden;
+        }
+
+            .loading-gif.active {
+                visibility: visible;
+            }
+    </style>
+</head>
+<body>
+    <div class="loading-gif active"></div>
+    <section class="bg-img applyPage">
+        <div class="container">
+            @*<h2 class="apply_icon">
+                    <img src="~/img/icon.png" alt=""> Müraciətlərin izlənilməsi
+                </h2>*@
+            @RenderBody()
+
+        </div>
+    </section>
+
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    @RenderSection("Scripts", required: false)
+    <script>
+            //$(window).load(function () {
+            //    $('.loading-gif').removeClass('active');
+            //    $("body").css({ "overflow": "visible" });
+            //})();
+
+            (() => {
+                $('.loading-gif').removeClass('active');
+                $("body").css({ "overflow": "visible" });
+
+                $('form').submit(() => {
+                    const allInputsAreTrue = Array
+                        .from(document.querySelectorAll('input'))
+                        .every(inp => (inp && !inp.classList.contains('input-validation-error')) && inp.value !== "");
+                    if (allInputsAreTrue) {
+                        $('.loading-gif').addClass('active');
+                        $("body").css({ "overflow": "hidden" });
+                    }
+                });
+            })()
+    </script>
+
+</body>
+</html>

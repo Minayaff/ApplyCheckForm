@@ -1,0 +1,70 @@
+﻿@model Dictionary<string, List<ESosialServiceData>>
+@{
+    ViewData["Title"] = "Index";
+
+}  
+<a class="btn-service" asp-controller="Home" asp-action="Index"><img src="~/img/arrowhite.png" /> Bütün xidmətlər  </a>
+<div class="container">
+    @{
+        int counter = 0;
+        bool isOpen = Model.Count == 1 && Model.FirstOrDefault().Value.Count == 1;
+    }
+    @foreach (var item in Model)
+    {
+        counter++;
+        <div class="accordion" id="accordion@(counter)">
+            <div class="accordion-group my-acc">
+                <div class="accordion-heading acc-bg @(isOpen ? "" : "collapsed")" data-toggle="collapse" data-parent="#accordion@(counter)" href="#collapse@(counter)" aria-expanded="@($"{isOpen}".ToLower())">
+                    <a class="accordion-toggle">
+                        @item.Key
+                    </a>
+                </div>
+                <div id="collapse@(counter)" class="accordion-body collapse acc-body @(isOpen ? "show" : "")">
+                    <div class="accordion-inner ">
+                        <div class="accordion" id="accordion_@(counter)">
+                            @{int id = 0;}
+                            @foreach (var itemSub in item.Value)
+                            {
+                                id++;
+                                <div class="accordion-group">
+
+                                    <div class="accordion-heading acc-sub-bg @(isOpen ? "" : "collapsed")" data-toggle="collapse" data-parent="#accordion_@(counter)" href="#collapseInner(@id)" aria-expanded="@($"{isOpen}".ToLower())">
+                                        <a class="accordion-toggle">
+                                            <b>@itemSub.Number</b> (@itemSub.ReceivedDate.ToString("dd.MM.yyyy"))
+                                        </a>
+                                    </div>
+                                    <div id="collapseInner(@id)" class="accordion-body collapse in acc-sub-body  @(isOpen ? "show" : "")">
+                                        <div class="accordion-inner">
+                                            <div class="d-flex">
+                                                <div class="box">
+                                                    <p class="label-p">Mövzu</p>
+                                                    <p class="data-p">@itemSub.Subject</p>
+                                                    <p class="label-p">Alt mövzu</p>
+                                                    <p class="data-p">@itemSub.Content</p>
+                                                    <p class="label-p">İcraçı</p>
+                                                    <p class="data-p">@itemSub.ExecutorFullName</p>
+
+
+                                                </div>
+                                                <div class="box">
+                                                    <p class="label-p">Daxilolma forması</p>
+                                                    <p class="data-p">@itemSub.ReceptMethod</p>
+                                                    <p class="label-p">İcra statusu</p>
+                                                    <p class="data-p">@itemSub.Status </p>
+                                                    <p class="label-p">Status</p>
+                                                    <p class="data-p">@itemSub.Closed </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

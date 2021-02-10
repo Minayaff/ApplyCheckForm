@@ -1,0 +1,67 @@
+﻿@model ApplyCheckESosial.ViewModel.PassportVM
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration configuration
+@{
+    ViewData["Title"] = "SVLogin";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+}
+<div class="div-container">
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <div class="width-auto">
+                <button class="btn-app" type="button">
+                    Şəxsiyyəti təsdiq edən <br /> sənəd üzrə
+                </button>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <form asp-controller="Services" asp-action="Passport" method="post" class="width-auto mt-5" id="my_captcha_form">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                <div class="form-group ">
+                    <label>ŞV seriya nömrəsi</label>
+                    <div class="input-group my-group">
+                        <select asp-for="SeriyaType" class="selectpicker form-control" data-live-search="true">
+                            <option value="" title="Şəxsiyyət vəsiqəsi">AZE</option>
+                            <option value="AA" title="Şəxsiyyət vəsiqəsi">AA</option>
+                            <option value="" title="Müvəqqəti yaşayış icazəsi">MYİ</option>
+                            <option value="" title="Daimi yaşayış icazəsi">DYİ</option>
+                        </select>
+                        <span asp-validation-for="SeriyaType" class="text-danger"></span>
+
+                        <input asp-for="SeriyaNumber" type="number" onkeypress="return event.keyCode === 8 || event.charCode >= 48 && event.charCode <= 57" class="form-control myinput" placeholder="00000000" />
+                        <span asp-validation-for="SeriyaNumber" class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="form-group mt-5">
+                    <label>Doğum tarixi</label>
+                    <input class="form-control myinput" asp-for="Birthdate" placeholder="gün.ay.il" onkeyup="date_reformat_dd(this);" onkeypress="date_reformat_dd(this);" onpaste="date_reformat_dd(this);" autocomplete="off" type="text">
+                    <span asp-validation-for="Birthdate" class="text-danger"></span>
+                </div>
+                <div class="form-group mt-5">
+                    <div class="g-recaptcha" data-sitekey="@configuration["reCAPTCHA:SiteKey"]">
+                    </div>
+                </div>
+                <div class="form-group mt-5">
+                    <span><a asp-controller="Home" asp-action="Index"><img style="margin-top: 3rem;" src="~/img/arrow.png" />  </a></span>
+                    <button type="submit" class="btn-check">Yoxla</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+@section Scripts{
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/site.js"></script>
+
+}
